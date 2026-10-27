@@ -22,7 +22,7 @@ export const LARGE_CATALOGUE_CATEGORIES: Record<
     priceMax: 1099,
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     images: [
-      '/images/product_tshirt_minimal_1793012315796.jpg',
+      './images/product_tshirt_minimal_1793012315796.jpg',
       'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80',
       'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop&q=80',
       'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&auto=format&fit=crop&q=80',
@@ -51,7 +51,7 @@ export const LARGE_CATALOGUE_CATEGORIES: Record<
     priceMax: 1399,
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     images: [
-      '/images/product_gym_tee_1793012316718.jpg',
+      './images/product_gym_tee_1793012316718.jpg',
       'https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800&auto=format&fit=crop&q=80',
       'https://images.unsplash.com/photo-1584865288642-42078afe6942?w=800&auto=format&fit=crop&q=80',
     ],
@@ -79,7 +79,7 @@ export const LARGE_CATALOGUE_CATEGORIES: Record<
     priceMax: 2999,
     sizes: ['28', '30', '32', '34', '36', '38'],
     images: [
-      '/images/product_denim_raw_1793012316312.jpg',
+      './images/product_denim_raw_1793012316312.jpg',
       'https://images.unsplash.com/photo-1542272604-780c96856592?w=800&auto=format&fit=crop&q=80',
       'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&auto=format&fit=crop&q=80',
     ],
@@ -132,7 +132,7 @@ export const LARGE_CATALOGUE_CATEGORIES: Record<
     priceMax: 2899,
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
     images: [
-      '/images/product_hoodie_mineral_1793012316379.jpg',
+      './images/product_hoodie_mineral_1793012316379.jpg',
       'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80',
       'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=800&auto=format&fit=crop&q=80',
     ],

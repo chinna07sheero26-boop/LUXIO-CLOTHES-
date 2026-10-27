@@ -287,7 +287,17 @@ export const AdminCatalogueModal: React.FC<AdminCatalogueModalProps> = ({
               title="Download complete pre-built website for GitHub Pages"
             >
               <Download className="w-3.5 h-3.5 text-amber-300" />
-              <span>Download Website (.ZIP)</span>
+              <span>Download Web Files (.ZIP)</span>
+            </a>
+
+            <a
+              href="./threadlab-source-code.zip"
+              download="threadlab-source-code.zip"
+              className="px-3 py-1.5 text-xs font-semibold bg-stone-100 hover:bg-stone-200 text-stone-900 border border-stone-300 rounded-lg flex items-center gap-1.5 cursor-pointer"
+              title="Download full project TypeScript source code"
+            >
+              <Download className="w-3.5 h-3.5 text-stone-700" />
+              <span>Source Code (.ZIP)</span>
             </a>
 
             <button

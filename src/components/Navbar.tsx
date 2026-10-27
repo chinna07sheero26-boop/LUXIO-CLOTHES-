@@ -45,18 +45,18 @@ export const Navbar: React.FC<NavbarProps> = ({
         <span>Free standard delivery across India on orders above ₹999</span>
         <span className="hidden sm:inline text-stone-500">|</span>
         <a
-          href="./threadlab-github-pages.zip"
-          download="threadlab-github-pages.zip"
-          className="text-amber-300 hover:text-white font-semibold underline underline-offset-2 transition-colors inline-flex items-center gap-1"
+          href="./index-standalone.html"
+          download="index.html"
+          className="text-emerald-400 hover:text-white font-bold underline underline-offset-2 transition-colors inline-flex items-center gap-1"
         >
-          <span>Download Website (.ZIP)</span>
+          <span>Download index.html (Fix Blank Screen)</span>
         </a>
         <span className="hidden sm:inline text-stone-500">|</span>
         <button
           onClick={onOpenGuide}
-          className="hidden sm:inline text-stone-400 hover:text-white underline underline-offset-2 transition-colors cursor-pointer"
+          className="text-amber-300 hover:text-white underline underline-offset-2 transition-colors cursor-pointer font-semibold"
         >
-          GitHub Pages & SEO Guide
+          GitHub Blank Screen Guide
         </button>
       </div>
 
@@ -208,6 +208,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
 
             <div className="pt-3 border-t border-stone-100 flex flex-col gap-2">
+              <a
+                href="./threadlab-github-pages.zip"
+                download="threadlab-github-pages.zip"
+                className="flex items-center gap-2.5 px-3 py-2 text-sm bg-amber-400 text-stone-950 font-bold rounded-lg shadow-2xs"
+              >
+                <span>📦 Download Web Files (.ZIP)</span>
+              </a>
+              <a
+                href="./threadlab-source-code.zip"
+                download="threadlab-source-code.zip"
+                className="flex items-center gap-2.5 px-3 py-2 text-sm bg-stone-100 text-stone-900 font-semibold rounded-lg border border-stone-300"
+              >
+                <span>💻 Download Source Code (.ZIP)</span>
+              </a>
               <button
                 onClick={() => {
                   onOpenAdmin();

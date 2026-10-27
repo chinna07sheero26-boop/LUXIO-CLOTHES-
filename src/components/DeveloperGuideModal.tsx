@@ -21,7 +21,7 @@ interface DeveloperGuideModalProps {
 export const DeveloperGuideModal: React.FC<DeveloperGuideModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
-  const [activeSection, setActiveSection] = useState<'hosting' | 'seo' | 'payments' | 'auth' | 'images'>('seo');
+  const [activeSection, setActiveSection] = useState<'fix-blank' | 'hosting' | 'seo' | 'payments' | 'auth' | 'images'>('fix-blank');
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-stone-950/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 md:p-6">
@@ -29,11 +29,12 @@ export const DeveloperGuideModal: React.FC<DeveloperGuideModalProps> = ({ isOpen
         {/* Header */}
         <div className="px-6 py-4 border-b border-stone-200 flex items-center justify-between bg-stone-50">
           <div>
-            <h2 className="text-lg font-bold text-stone-950 font-display">
-              THREADLAB Store Owner Guide
+            <h2 className="text-lg font-bold text-stone-950 font-display flex items-center gap-2">
+              <span>THREADLAB Store Owner Guide</span>
+              <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 rounded-full">GitHub Pages Ready</span>
             </h2>
             <p className="text-xs text-stone-500">
-              Google Search indexing, free hosting, payment gateways, and Android phone workflow.
+              Fix blank screen, Google Search indexing, free hosting, and payment gateways.
             </p>
           </div>
           <button
@@ -46,6 +47,15 @@ export const DeveloperGuideModal: React.FC<DeveloperGuideModalProps> = ({ isOpen
 
         {/* Navigation Tabs */}
         <div className="px-6 py-2.5 border-b border-stone-200 bg-stone-100 flex items-center gap-1 overflow-x-auto no-scrollbar">
+          <button
+            onClick={() => setActiveSection('fix-blank')}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+              activeSection === 'fix-blank' ? 'bg-emerald-600 text-white shadow-xs font-bold' : 'text-stone-700 hover:text-stone-950 bg-stone-200/60'
+            }`}
+          >
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Fix Blank Screen on GitHub</span>
+          </button>
           <button
             onClick={() => setActiveSection('seo')}
             className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
@@ -110,21 +120,21 @@ export const DeveloperGuideModal: React.FC<DeveloperGuideModalProps> = ({ isOpen
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
               <a
-                href="./threadlab-github-pages.zip"
-                download="threadlab-github-pages.zip"
-                className="py-2.5 px-3 bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold rounded-lg flex items-center justify-center gap-2 text-xs transition-colors shadow-xs"
+                href="./index-standalone.html"
+                download="index.html"
+                className="py-2.5 px-3 bg-emerald-400 hover:bg-emerald-300 text-stone-950 font-bold rounded-lg flex items-center justify-center gap-2 text-xs transition-colors shadow-xs"
               >
                 <Download className="w-4 h-4 text-stone-950" />
-                <span>GitHub Pages .ZIP</span>
+                <span>Standalone index.html (Best)</span>
               </a>
 
               <a
-                href="./threadlab-source-code.zip"
-                download="threadlab-source-code.zip"
-                className="py-2.5 px-3 bg-stone-800 hover:bg-stone-700 text-stone-100 font-semibold rounded-lg flex items-center justify-center gap-2 text-xs transition-colors border border-stone-700"
+                href="./threadlab-standalone-index.zip"
+                download="threadlab-standalone-index.zip"
+                className="py-2.5 px-3 bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold rounded-lg flex items-center justify-center gap-2 text-xs transition-colors shadow-xs"
               >
-                <Download className="w-4 h-4 text-stone-300" />
-                <span>Source Code .ZIP</span>
+                <Download className="w-4 h-4 text-stone-950" />
+                <span>All-in-One .ZIP (770KB)</span>
               </a>
 
               <a
@@ -137,6 +147,90 @@ export const DeveloperGuideModal: React.FC<DeveloperGuideModalProps> = ({ isOpen
               </a>
             </div>
           </div>
+
+          {/* SECTION: FIX BLANK SCREEN ON GITHUB */}
+          {activeSection === 'fix-blank' && (
+            <div className="space-y-4">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                <h3 className="text-base font-bold text-emerald-950 font-display mb-1 flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                  <span>Why It Was Blank & How We Fixed It</span>
+                </h3>
+                <p className="text-xs text-emerald-900 leading-relaxed">
+                  On Android phones, GitHub's file uploader cannot upload folders (like <code className="font-mono bg-emerald-100 px-1 py-0.5 rounded">assets/</code>), and GitHub Pages cannot compile TypeScript files without building. We have created a <strong>100% Self-Contained Standalone index.html</strong> where all JavaScript, CSS styles, and features are inlined into <strong>one single file</strong>!
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <div className="p-3.5 bg-white rounded-lg border border-stone-200 flex gap-3">
+                  <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                    1
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="font-bold text-stone-950 text-xs sm:text-sm">
+                      Download the Single "index.html" File
+                    </h4>
+                    <p className="text-xs text-stone-600">
+                      Tap the green <strong>"Standalone index.html (Best)"</strong> button above. It saves directly to your phone's Downloads as <code className="font-mono bg-stone-100 px-1 py-0.5 rounded">index.html</code>.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-3.5 bg-white rounded-lg border border-stone-200 flex gap-3">
+                  <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                    2
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="font-bold text-stone-950 text-xs sm:text-sm">
+                      Upload index.html to your GitHub Repository
+                    </h4>
+                    <p className="text-xs text-stone-600">
+                      Open your repo in Chrome on your phone: <a href="https://github.com/chinna07sheero26-boop/threads-labstore" target="_blank" rel="noreferrer" className="text-emerald-700 underline font-semibold">github.com/chinna07sheero26-boop/threads-labstore</a>. Tap <strong>Add file</strong> → <strong>Upload files</strong>, select the <code className="font-mono bg-stone-100 px-1 py-0.5 rounded">index.html</code> from your phone, and tap <strong>Commit changes</strong>.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-3.5 bg-white rounded-lg border border-stone-200 flex gap-3">
+                  <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                    3
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="font-bold text-stone-950 text-xs sm:text-sm">
+                      Verify GitHub Pages Settings
+                    </h4>
+                    <p className="text-xs text-stone-600">
+                      In your repo on GitHub, go to <strong>Settings</strong> (tab) → <strong>Pages</strong> (left sidebar). Under <strong>Branch</strong>, make sure <strong>main</strong> and <strong>/ (root)</strong> is selected. Tap <strong>Save</strong> if not already saved.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-3.5 bg-white rounded-lg border border-stone-200 flex gap-3">
+                  <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                    4
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="font-bold text-stone-950 text-xs sm:text-sm">
+                      Refresh Your Store URL
+                    </h4>
+                    <p className="text-xs text-stone-600">
+                      Wait 30–60 seconds for GitHub's server to update. Then open:
+                    </p>
+                    <div className="pt-1">
+                      <a
+                        href="https://chinna07sheero26-boop.github.io/threads-labstore/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-950 text-white font-mono text-xs font-semibold hover:bg-stone-800"
+                      >
+                        <span>https://chinna07sheero26-boop.github.io/threads-labstore/</span>
+                        <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* SECTION: ADD TO GOOGLE SEARCH (SEO) */}
           {activeSection === 'seo' && (

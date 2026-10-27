@@ -26,7 +26,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
     color: 'Onyx Black',
     description: 'Pre-shrunk 100% combed cotton with dense micro-rib collar and dropped shoulder silhouette. Breathable yet substantial handfeel.',
     stock: 42,
-    imageUrl: '/src/assets/images/product_tshirt_minimal_1793012315796.jpg',
+    imageUrl: './images/product_tshirt_minimal_1793012315796.jpg',
     badge: 'Best Seller',
     material: '100% Combed Cotton',
     fit: 'Boxy Oversized Fit',
@@ -95,7 +95,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
     color: 'Charcoal Grey',
     description: 'Engineered zoned micro-perforation fabric with rapid moisture dispersion and 4-way mechanical stretch.',
     stock: 65,
-    imageUrl: '/src/assets/images/product_gym_tee_1793012316718.jpg',
+    imageUrl: './images/product_gym_tee_1793012316718.jpg',
     badge: 'Best Seller',
     material: '88% Poly 12% Spandex',
     fit: 'Athletic Active Fit',
@@ -151,7 +151,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
     color: 'Raw Indigo',
     description: 'Unwashed authentic Japanese redline selvedge denim designed to develop unique personal fade creases over years of wear.',
     stock: 27,
-    imageUrl: '/src/assets/images/product_denim_raw_1793012316312.jpg',
+    imageUrl: './images/product_denim_raw_1793012316312.jpg',
     badge: 'Artisan Grade',
     material: '100% Selvedge Cotton',
     fit: 'Straight Leg',
@@ -235,7 +235,7 @@ export const DEFAULT_PRODUCTS: Product[] = [
     color: 'Sage Green',
     description: 'Indestructible ultra-dense 450 GSM French terry hoodie with double-layer hood, no drawstrings, and seamless kangaroo pocket.',
     stock: 31,
-    imageUrl: '/src/assets/images/product_hoodie_mineral_1793012316379.jpg',
+    imageUrl: './images/product_hoodie_mineral_1793012316379.jpg',
     badge: 'Flagship Drop',
     material: '100% Heavy French Terry',
     fit: 'Oversized Boxy',
@@ -388,7 +388,7 @@ export function csvRowsToProducts(rows: string[][]): { products: Product[]; erro
     let imageUrl = getVal('imageurl') || getVal('image');
     if (!imageUrl) {
       // Default placeholder based on category
-      imageUrl = '/src/assets/images/product_tshirt_minimal_1793012315796.jpg';
+      imageUrl = './images/product_tshirt_minimal_1793012315796.jpg';
     }
 
     products.push({

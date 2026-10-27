@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
+import { resolveAssetUrl } from '../utils/assetHelper';
 
 interface LazyImageProps {
   src: string;
@@ -18,6 +19,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const resolvedSrc = resolveAssetUrl(src);
 
   return (
     <div className={`relative overflow-hidden bg-stone-100 ${aspectRatioClass} w-full`}>
@@ -31,7 +33,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
       {/* Actual Lazy Loaded Image */}
       {!hasError ? (
         <img
-          src={src}
+          src={resolvedSrc}
           alt={alt}
           loading="lazy"
           decoding="async"
