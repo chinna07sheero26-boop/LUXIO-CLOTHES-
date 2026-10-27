@@ -87,24 +87,6 @@
       </div>
     </div>
 
-    <!-- Script Load Diagnostic Trap for GitHub Pages -->
-    <script>
-      window.addEventListener('error', function (e) {
-        if (e && e.target && (e.target.tagName === 'IMG' || e.target.tagName === 'LINK')) {
-          return;
-        }
-        var preloader = document.getElementById('tl-preloader');
-        if (preloader) {
-          preloader.innerHTML =
-            '<div style="max-width: 440px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #e7e5e4;">' +
-            '<div style="font-size: 18px; font-weight: 700; color: #0c0a09; margin-bottom: 8px;">THREADLAB Store Notice</div>' +
-            '<p style="font-size: 13px; color: #57534e; line-height: 1.5; margin-bottom: 16px;">The store is loading from GitHub Pages. If this persists, please ensure your browser URL ends with a slash: <code>/threads-labstore/</code></p>' +
-            '<button onclick="location.reload()" style="padding: 10px 20px; background: #0c0a09; color: #ffffff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">Refresh Page</button>' +
-            '</div>';
-        }
-      }, true);
-    </script>
-
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -78,7 +78,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
-      <image:loc>/src/assets/images/product_tshirt_minimal_1793012315796.jpg</image:loc>
+      <image:loc>./images/product_tshirt_minimal_1793012315796.jpg</image:loc>
       <image:title>Heavyweight 240 GSM Boxy Plain Tee</image:title>
       <image:caption>Heavyweight 240 GSM Boxy Plain Tee - THREADLAB Clothing</image:caption>
     </image:image>

@@ -9,95 +9,88 @@ const distDir = path.join(rootDir, 'dist');
 const publicDir = path.join(rootDir, 'public');
 const docsDir = path.join(rootDir, 'docs');
 
-console.log('[Post-Build] Starting THREADLAB GitHub Pages & Standalone packaging...');
+console.log('[Post-Build] Starting THREADLAB GitHub Pages packaging...');
 
 const indexHtmlPath = path.join(distDir, 'index.html');
-
 if (!fs.existsSync(indexHtmlPath)) {
   console.error('[Post-Build] Error: dist/index.html not found! Run vite build first.');
   process.exit(1);
 }
 
-let html = fs.readFileSync(indexHtmlPath, 'utf8');
+// 1. Read fresh Vite-built index.html (which contains relative ./assets/ links)
+const originalViteHtml = fs.readFileSync(indexHtmlPath, 'utf8');
 
-// 1. Find CSS asset files and inline them
+// 2. Locate CSS and JS assets
 const assetsDir = path.join(distDir, 'assets');
 let inlinedCss = '';
+let inlinedJs = '';
 
 if (fs.existsSync(assetsDir)) {
   const assetFiles = fs.readdirSync(assetsDir);
   const cssFiles = assetFiles.filter((f) => f.endsWith('.css'));
-
   for (const cssFile of cssFiles) {
-    const cssPath = path.join(assetsDir, cssFile);
-    const cssContent = fs.readFileSync(cssPath, 'utf8');
-    inlinedCss += cssContent + '\n';
+    inlinedCss += fs.readFileSync(path.join(assetsDir, cssFile), 'utf8') + '\n';
   }
 
-  // 2. Find JS asset files and inline them
   const jsFiles = assetFiles.filter((f) => f.endsWith('.js'));
-  let inlinedJs = '';
-
   for (const jsFile of jsFiles) {
-    const jsPath = path.join(assetsDir, jsFile);
-    const jsContent = fs.readFileSync(jsPath, 'utf8');
-    inlinedJs += jsContent + '\n';
-  }
-
-  if (inlinedCss) {
-    // Remove existing link rel=stylesheet pointing to assets/
-    html = html.replace(/<link[^>]+rel=["']stylesheet["'][^>]*href=["'][^"']*assets\/[^"']+["'][^>]*>/gi, '');
-    html = html.replace(/<link[^>]+href=["'][^"']*assets\/[^"']+["'][^>]*rel=["']stylesheet["'][^>]*>/gi, '');
-    
-    // Inject inlined stylesheet into <head>
-    html = html.replace('</head>', `<style id="threadlab-styles">\n${inlinedCss}\n</style>\n</head>`);
-    console.log(`[Post-Build] Inlined ${inlinedCss.length} bytes of CSS into index.html`);
-  }
-
-  if (inlinedJs) {
-    // Remove existing script module pointing to assets/
-    html = html.replace(/<script[^>]+type=["']module["'][^>]*src=["'][^"']*assets\/[^"']+["'][^>]*><\/script>/gi, '');
-    html = html.replace(/<script[^>]+src=["'][^"']*assets\/[^"']+["'][^>]*type=["']module["'][^>]*><\/script>/gi, '');
-
-    // Inject inlined module script before </body>
-    html = html.replace('</body>', `<script type="module">\n${inlinedJs}\n</script>\n</body>`);
-    console.log(`[Post-Build] Inlined ${inlinedJs.length} bytes of JS into index.html`);
+    inlinedJs += fs.readFileSync(path.join(assetsDir, jsFile), 'utf8') + '\n';
   }
 }
 
-// 3. Write self-contained dist/index.html
-fs.writeFileSync(indexHtmlPath, html, 'utf8');
-console.log('[Post-Build] Generated self-contained standalone dist/index.html');
+// 3. Construct a 100% bulletproof self-contained standalone HTML
+// CRITICAL: Escape any `</script` inside JS to `<\/script` so HTML parser does NOT terminate early!
+const safeJs = inlinedJs.replace(/<\/script/gi, '<\\/script');
+
+let standaloneHtml = originalViteHtml;
+
+if (inlinedCss) {
+  // Strip asset css links
+  standaloneHtml = standaloneHtml.replace(/<link[^>]+rel=["']stylesheet["'][^>]*href=["'][^"']*assets\/[^"']+["'][^>]*\/?>/gi, '');
+  standaloneHtml = standaloneHtml.replace(/<link[^>]+href=["'][^"']*assets\/[^"']+["'][^>]*rel=["']stylesheet["'][^>]*\/?>/gi, '');
+  const headEnd = standaloneHtml.lastIndexOf('</head>');
+  if (headEnd !== -1) {
+    standaloneHtml = standaloneHtml.slice(0, headEnd) + `\n<style id="threadlab-styles">\n${inlinedCss}\n</style>\n` + standaloneHtml.slice(headEnd);
+  }
+}
+
+if (safeJs) {
+  // Strip asset js script tags
+  standaloneHtml = standaloneHtml.replace(/<script[^>]+type=["']module["'][^>]*src=["'][^"']*assets\/[^"']+["'][^>]*><\/script>/gi, '');
+  standaloneHtml = standaloneHtml.replace(/<script[^>]+src=["'][^"']*assets\/[^"']+["'][^>]*type=["']module["'][^>]*><\/script>/gi, '');
+  const bodyEnd = standaloneHtml.lastIndexOf('</body>');
+  if (bodyEnd !== -1) {
+    standaloneHtml = standaloneHtml.slice(0, bodyEnd) + `\n<script type="module">\n${safeJs}\n</script>\n` + standaloneHtml.slice(bodyEnd);
+  }
+}
+
+// Save standalone single-file into dist/index.html (and public/index-standalone.html for direct download)
+fs.writeFileSync(indexHtmlPath, standaloneHtml, 'utf8');
+console.log(`[Post-Build] Created self-contained dist/index.html (${standaloneHtml.length.toLocaleString()} bytes)`);
 
 // 4. Ensure dist/404.html is identical copy for SPA fallback
 const fourOhFourPath = path.join(distDir, '404.html');
-fs.writeFileSync(fourOhFourPath, html, 'utf8');
-console.log('[Post-Build] Created dist/404.html');
+fs.writeFileSync(fourOhFourPath, standaloneHtml, 'utf8');
 
-// 5. Ensure .nojekyll in dist/
-const distNoJekyll = path.join(distDir, '.nojekyll');
-fs.writeFileSync(distNoJekyll, '', 'utf8');
+// 5. Ensure .nojekyll in dist/ and public/
+fs.writeFileSync(path.join(distDir, '.nojekyll'), '', 'utf8');
+fs.writeFileSync(path.join(publicDir, '.nojekyll'), '', 'utf8');
 
-// 6. Ensure .nojekyll in public/
-const publicNoJekyll = path.join(publicDir, '.nojekyll');
-fs.writeFileSync(publicNoJekyll, '', 'utf8');
+// 6. Copy standalone single-file into public/index-standalone.html for direct browser download
+const publicStandaloneHtml = path.join(publicDir, 'index-standalone.html');
+fs.writeFileSync(publicStandaloneHtml, standaloneHtml, 'utf8');
 
-// 7. Mirror complete dist/ into docs/ folder for GitHub Pages "deploy from /docs" support
+// 7. Mirror dist to docs for GitHub Pages "Deploy from /docs" option
 if (!fs.existsSync(docsDir)) {
   fs.mkdirSync(docsDir, { recursive: true });
 }
 fs.cpSync(distDir, docsDir, { recursive: true });
-console.log('[Post-Build] Mirrored dist/ to docs/ for GitHub Pages /docs folder support.');
 
-// 8. Copy self-contained index.html directly into public/ for instant single-file download
-const publicStandaloneHtml = path.join(publicDir, 'index-standalone.html');
-fs.writeFileSync(publicStandaloneHtml, html, 'utf8');
-
-// 9. Call python packager to create clean zips
+// 8. Call python packager to create clean zips
 try {
   execSync('python3 scripts/package-zips.py', { cwd: rootDir, stdio: 'inherit' });
 } catch (zipErr) {
   console.warn('[Post-Build] Warning packaging zips:', zipErr.message);
 }
 
-console.log('[Post-Build] Complete! THREADLAB is ready for zero-error GitHub Pages hosting.');
+console.log('[Post-Build] Packaging successfully finished!');
