@@ -1,0 +1,7 @@
+{
+  "name": "THREADLAB — Clothing & Apparel Store",
+  "description": "Modern, mobile-friendly clothing shopping website with a large CSV-driven catalogue, shopping cart, multi-attribute filters, and GitHub Pages free hosting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
